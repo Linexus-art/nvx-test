@@ -83,23 +83,113 @@ body {
 }
 
 /* ═══════════════════════════════════════
-   3D SPACE BACKGROUND
+   3D GRAPHITE ORBS BACKGROUND
 ═══════════════════════════════════════ */
-#space-bg {
-    position: fixed; inset: 0; z-index: -1;
-    background: radial-gradient(ellipse at 50% 40%, #111113 0%, #060606 55%, #000 100%);
+.graphite-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
     overflow: hidden;
+    background: radial-gradient(ellipse at 30% 0%, #1c1c1e 0%, #0a0a0c 45%, #000 100%);
+    pointer-events: none;
 }
-#space-bg::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.09) 0%, transparent 60%);
-    filter: blur(80px);
-    animation: pulseGlow 8s ease-in-out infinite;
+.graphite-bg .orb-wrap {
+    position: absolute;
+    width: 0; height: 0;
+    will-change: transform;
 }
-@keyframes pulseGlow {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.1); }
+.graphite-bg .orb {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    will-change: transform, opacity;
 }
+.graphite-bg .top-shine {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 30% at 50% -10%, rgba(255,255,255,0.08), transparent 70%);
+    pointer-events: none;
+}
+.graphite-bg .vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.5) 100%);
+    pointer-events: none;
+}
+
+/* Орб 1 — верхний левый, тёплый платиновый */
+.graphite-bg .orb-1-wrap {
+    left: 20%; top: 15%;
+    animation: gorb-float-0 22s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.graphite-bg .orb-1 {
+    width: 440px; height: 440px; left: -220px; top: -220px;
+    background: radial-gradient(circle, rgba(200,205,218,0.7) 0%, rgba(80,82,90,0) 70%);
+    filter: blur(58px);
+    animation: gorb-pulse-0 16s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/* Орб 2 — правый, холодный серебристый */
+.graphite-bg .orb-2-wrap {
+    left: 75%; top: 40%;
+    animation: gorb-float-1 27s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    animation-delay: -4s;
+}
+.graphite-bg .orb-2 {
+    width: 400px; height: 400px; left: -200px; top: -200px;
+    background: radial-gradient(circle, rgba(225,230,240,0.5) 0%, rgba(60,62,68,0) 70%);
+    filter: blur(68px);
+    animation: gorb-pulse-1 19s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/* Орб 3 — нижний, широкий тёплый */
+.graphite-bg .orb-3-wrap {
+    left: 35%; top: 80%;
+    animation: gorb-float-2 32s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    animation-delay: -8s;
+}
+.graphite-bg .orb-3 {
+    width: 500px; height: 500px; left: -250px; top: -250px;
+    background: radial-gradient(circle, rgba(175,180,192,0.6) 0%, rgba(40,42,48,0) 70%);
+    filter: blur(78px);
+    animation: gorb-pulse-2 22s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/* Движение */
+@keyframes gorb-float-0 {
+    0%,100% { transform: translate(0, 0); }
+    20%     { transform: translate(58px, -30px); }
+    40%     { transform: translate(30px, 50px); }
+    60%     { transform: translate(-35px, 70px); }
+    80%     { transform: translate(-72px, 15px); }
+}
+@keyframes gorb-float-1 {
+    0%,100% { transform: translate(0, 0); }
+    25%     { transform: translate(-55px, 30px); }
+    50%     { transform: translate(-85px, 60px); }
+    75%     { transform: translate(45px, -72px); }
+}
+@keyframes gorb-float-2 {
+    0%,100% { transform: translate(0, 0); }
+    20%     { transform: translate(40px, 20px); }
+    40%     { transform: translate(72px, 46px); }
+    60%     { transform: translate(10px, -30px); }
+    80%     { transform: translate(-48px, -58px); }
+}
+/* Пульсация */
+@keyframes gorb-pulse-0 {
+    0%,100% { transform: scale(1); opacity: 0.9; }
+    33%     { transform: scale(1.12); opacity: 1; }
+    66%     { transform: scale(1.2); opacity: 0.95; }
+}
+@keyframes gorb-pulse-1 {
+    0%,100% { transform: scale(1.08); opacity: 0.8; }
+    50%     { transform: scale(0.9); opacity: 1; }
+}
+@keyframes gorb-pulse-2 {
+    0%,100% { transform: scale(0.95); opacity: 0.95; }
+    33%     { transform: scale(1.15); opacity: 0.82; }
+    66%     { transform: scale(1.25); opacity: 0.72; }
+}
+
 @keyframes accentPulse {
     0%, 100% { opacity: 0.5; }
     50%      { opacity: 1; }
@@ -108,60 +198,16 @@ body {
     0%   { background-position: -200% 0; }
     100% { background-position: 200% 0; }
 }
-.space-orb {
-    position: absolute; border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%,
-        rgba(255, 255, 255, 0.22) 0%,
-        rgba(255, 255, 255, 0.12) 30%,
-        rgba(255, 255, 255, 0.05) 50%,
-        rgba(255, 255, 255, 0.02) 70%,
-        transparent 100%);
-    filter: blur(70px);
-    animation: orbFloat 20s ease-in-out infinite;
-    box-shadow: 0 0 100px rgba(255, 255, 255, 0.08), inset 0 0 60px rgba(255, 255, 255, 0.06);
-    will-change: transform;
-    contain: layout;
-}
-.space-orb-1 { width: 600px; height: 600px; top: -200px; left: -200px; animation-duration: 25s; }
-.space-orb-2 { width: 500px; height: 500px; top: 50%; right: -150px; animation-delay: -8s; animation-duration: 30s; }
-.space-orb-3 { width: 450px; height: 450px; bottom: -100px; left: 30%; animation-delay: -15s; animation-duration: 28s; }
-.space-orb-4 { width: 350px; height: 350px; top: 30%; left: 40%; animation-delay: -5s; animation-duration: 35s; }
-
-@keyframes orbFloat {
-    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    25% { transform: translate(50px, -80px) rotate(90deg) scale(1.1); }
-    50% { transform: translate(-30px, 60px) rotate(180deg) scale(0.95); }
-    75% { transform: translate(80px, 40px) rotate(270deg) scale(1.05); }
-}
-.space-stars {
-    position: absolute; inset: 0;
-    background-image:
-        radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.3), transparent),
-        radial-gradient(2px 2px at 60% 70%, rgba(255, 255, 255, 0.2), transparent),
-        radial-gradient(1px 1px at 50% 20%, rgba(255, 255, 255, 0.25), transparent),
-        radial-gradient(1px 1px at 80% 10%, rgba(255, 255, 255, 0.15), transparent),
-        radial-gradient(2px 2px at 90% 60%, rgba(255, 255, 255, 0.2), transparent),
-        radial-gradient(1px 1px at 33% 50%, rgba(255, 255, 255, 0.25), transparent),
-        radial-gradient(2px 2px at 15% 80%, rgba(255, 255, 255, 0.2), transparent);
-    background-size: 200% 200%;
-    animation: starsTwinkle 8s ease-in-out infinite;
-    opacity: 0.5;
-}
-@keyframes starsTwinkle {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.02); }
-}
 
 /* Reduce animation load for users who prefer reduced motion or low-end devices */
 @media (prefers-reduced-motion: reduce) {
-    .space-orb { display: none !important; }
-    .space-stars, #space-bg::before { animation: none !important; }
+    .graphite-bg .orb-wrap,
+    .graphite-bg .orb { animation: none !important; }
     .support-icon { animation: none !important; }
     .section-title::after { animation: none !important; }
 }
 /* FIX v5.5 #1: Consolidated media queries — 400px and 600px rules were absorbed by 1024px */
 @media (max-width: 1024px) {
-    .space-orb-3, .space-orb-4 { display: none; }
     .glass, .subscription-card, .ref-link, .promo-section,
     .support-card, .faq, .stat-card, .topup-method,
     .header, .bottom-nav, .modal-content, .modal-overlay,
@@ -171,8 +217,7 @@ body {
     }
 }
 @media (hover: none) {
-    .space-orb { animation-duration: 60s; }
-    #space-bg::before { animation: none; }
+    .graphite-bg .orb-wrap { animation-duration: 60s; }
 }
 
 /* ═══════════════════════════════════════
@@ -1175,13 +1220,13 @@ body {
   </div>
 </div>
 
-<!-- 3D Space Background -->
-<div id="space-bg">
-    <div class="space-orb space-orb-1"></div>
-    <div class="space-orb space-orb-2"></div>
-    <div class="space-orb space-orb-3"></div>
-    <div class="space-orb space-orb-4"></div>
-    <div class="space-stars"></div>
+<!-- 3D Graphite Orbs Background -->
+<div class="graphite-bg" aria-hidden="true">
+    <div class="orb-wrap orb-1-wrap"><div class="orb orb-1"></div></div>
+    <div class="orb-wrap orb-2-wrap"><div class="orb orb-2"></div></div>
+    <div class="orb-wrap orb-3-wrap"><div class="orb orb-3"></div></div>
+    <div class="top-shine"></div>
+    <div class="vignette"></div>
 </div>
 
 <div id="app">
